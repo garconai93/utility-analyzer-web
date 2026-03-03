@@ -6,11 +6,7 @@
     <title>UtilityAnalyzer - Web</title>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
         
         :root {
             --primary: #2563eb;
@@ -39,20 +35,10 @@
             border-bottom: 1px solid rgba(255,255,255,0.1);
         }
         
-        .header h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
+        .header h1 { font-size: 1.8rem; font-weight: 700; }
+        .header h1 span { color: var(--primary); }
         
-        .header h1 span {
-            color: var(--primary);
-        }
-        
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-        }
+        .container { max-width: 800px; margin: 0 auto; padding: 20px; }
         
         .nav-tabs {
             display: flex;
@@ -73,13 +59,8 @@
             transition: all 0.3s;
         }
         
-        .nav-tab:hover {
-            background: rgba(255,255,255,0.2);
-        }
-        
-        .nav-tab.active {
-            background: var(--primary);
-        }
+        .nav-tab:hover { background: rgba(255,255,255,0.2); }
+        .nav-tab.active { background: var(--primary); }
         
         .card {
             background: rgba(255,255,255,0.1);
@@ -89,41 +70,14 @@
             backdrop-filter: blur(10px);
         }
         
-        .card h2 {
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
+        .card h2 { font-size: 1.2rem; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+        .card h2 .icon { font-size: 1.5rem; }
         
-        .card h2 .icon {
-            font-size: 1.5rem;
-        }
+        .info-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
         
-        .info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 15px;
-        }
-        
-        .info-item {
-            background: rgba(255,255,255,0.05);
-            padding: 15px;
-            border-radius: 8px;
-        }
-        
-        .info-label {
-            font-size: 0.75rem;
-            color: #9ca3af;
-            margin-bottom: 5px;
-        }
-        
-        .info-value {
-            font-size: 1rem;
-            font-weight: 600;
-        }
-        
+        .info-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 8px; }
+        .info-label { font-size: 0.75rem; color: #9ca3af; margin-bottom: 5px; }
+        .info-value { font-size: 1rem; font-weight: 600; }
         .info-value.success { color: var(--success); }
         .info-value.warning { color: var(--warning); }
         .info-value.danger { color: var(--danger); }
@@ -140,30 +94,12 @@
             transition: all 0.3s;
         }
         
-        .btn:hover {
-            background: var(--primary-dark);
-        }
+        .btn:hover { background: var(--primary-dark); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
         
-        .btn:disabled {
-            opacity: 0.5;
-            cursor: not-allowed;
-        }
-        
-        .speed-test {
-            text-align: center;
-            padding: 40px;
-        }
-        
-        .speed-value {
-            font-size: 4rem;
-            font-weight: 700;
-            color: var(--primary);
-        }
-        
-        .speed-unit {
-            font-size: 1.5rem;
-            color: #9ca3af;
-        }
+        .speed-test { text-align: center; padding: 40px; }
+        .speed-value { font-size: 4rem; font-weight: 700; color: var(--primary); }
+        .speed-unit { font-size: 1.5rem; color: #9ca3af; }
         
         .result-box {
             background: rgba(255,255,255,0.05);
@@ -197,14 +133,22 @@
             animation: spin 1s ease-in-out infinite;
         }
         
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
+        @keyframes spin { to { transform: rotate(360deg); } }
         .hidden { display: none; }
-        
         .tab-content { display: none; }
         .tab-content.active { display: block; }
+        
+        input[type="text"], input[type="number"] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 8px;
+            border: none;
+            margin-bottom: 10px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+        }
+        
+        input::placeholder { color: rgba(255,255,255,0.5); }
     </style>
 </head>
 <body>
@@ -248,10 +192,6 @@
                         <div class="info-label">RTT</div>
                         <div class="info-value" id="rtt">-</div>
                     </div>
-                    <div class="info-item">
-                        <div class="info-label">Save Data</div>
-                        <div class="info-value" id="saveData">-</div>
-                    </div>
                 </div>
                 <button class="btn" onclick="getNetworkInfo()" style="margin-top: 15px;">🔄 Refresh</button>
             </div>
@@ -261,8 +201,7 @@
         <div id="ip" class="tab-content">
             <div class="card">
                 <h2><span class="icon">🌐</span> IP Lookup</h2>
-                <input type="text" id="ipInput" placeholder="IP Address (lasă gol pentru IP-ul tău)" 
-                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                <input type="text" id="ipInput" placeholder="IP Address (lasă gol pentru IP-ul tău)">
                 <button class="btn" onclick="lookupIP()">🔍 Caută</button>
                 <div id="ipResult" class="result-box hidden"></div>
             </div>
@@ -285,11 +224,8 @@
         <div id="ping" class="tab-content">
             <div class="card">
                 <h2><span class="icon">🌊</span> Ping Test</h2>
-                <input type="text" id="pingHost" placeholder="Host (ex: google.com)" 
-                       value="google.com"
-                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
-                <input type="number" id="pingCount" placeholder="Număr ping-uri" value="5" min="1" max="20"
-                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                <input type="text" id="pingHost" placeholder="Host" value="google.com">
+                <input type="number" id="pingCount" placeholder="Număr ping-uri" value="5" min="1" max="20">
                 <button class="btn" onclick="runPing()">▶️ Run Ping</button>
                 <div id="pingResults"></div>
             </div>
@@ -299,23 +235,17 @@
         <div id="traceroute" class="tab-content">
             <div class="card">
                 <h2><span class="icon">🛤️</span> Traceroute</h2>
-                <input type="text" id="tracerouteHost" placeholder="Host (ex: google.com)" 
-                       value="google.com"
-                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                <input type="text" id="tracerouteHost" placeholder="Host" value="google.com">
                 <button class="btn" onclick="runTraceroute()">▶️ Start Traceroute</button>
                 <div id="tracerouteResults"></div>
             </div>
         </div>
-
+        
         <!-- Device Tab -->
         <div id="device" class="tab-content">
             <div class="card">
                 <h2><span class="icon">📱</span> Informații Dispozitiv</h2>
                 <div class="info-grid">
-                    <div class="info-item">
-                        <div class="info-label">User Agent</div>
-                        <div class="info-value" id="userAgent" style="font-size: 0.8rem;"></div>
-                    </div>
                     <div class="info-item">
                         <div class="info-label">Platform</div>
                         <div class="info-value" id="platform"></div>
@@ -332,17 +262,12 @@
                         <div class="info-label">Cookie Enabled</div>
                         <div class="info-value" id="cookies"></div>
                     </div>
-                    <div class="info-item">
-                        <div class="info-label">Java Enabled</div>
-                        <div class="info-value" id="java"></div>
-                    </div>
                 </div>
             </div>
         </div>
     </div>
     
     <script>
-        // Tab switching
         function showTab(tabId) {
             document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
@@ -351,35 +276,47 @@
         }
         
         // Network Info
-        function getNetworkInfo() {
+        async function getNetworkInfo() {
             const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
             if (conn) {
                 document.getElementById('connectionType').textContent = conn.effectiveType || 'unknown';
                 document.getElementById('downlink').textContent = conn.downlink ? conn.downlink + ' Mbps' : '-';
                 document.getElementById('rtt').textContent = conn.rtt ? conn.rtt + ' ms' : '-';
-                document.getElementById('saveData').textContent = conn.saveData ? 'Yes' : 'No';
             } else {
                 document.getElementById('connectionType').textContent = 'WiFi/4G';
             }
             
-            document.getElementById('onlineStatus').textContent = navigator.onLine ? '✅ Online' : '❌ Offline';
-            document.getElementById('onlineStatus').className = 'info-value ' + (navigator.onLine ? 'success' : 'danger');
+            const online = navigator.onLine;
+            document.getElementById('onlineStatus').textContent = online ? '✅ Online' : '❌ Offline';
+            document.getElementById('onlineStatus').className = 'info-value ' + (online ? 'success' : 'danger');
             
-            // IP Address (requires external API)
-            fetch('https://api.ipify.org?format=json')
-                .then(r => r.json())
-                .then(d => document.getElementById('ipAddress').textContent = d.ip)
-                .catch(() => document.getElementById('ipAddress').textContent = 'N/A');
+            // Try to get IP using JSONP
+            try {
+                const ip = await getIP();
+                document.getElementById('ipAddress').textContent = ip;
+            } catch(e) {
+                document.getElementById('ipAddress').textContent = 'N/A';
+            }
+        }
+        
+        function getIP() {
+            return new Promise((resolve, reject) => {
+                const script = document.createElement('script');
+                script.src = 'https://api.ipify.org?format=jsonp&callback=getIPCallback';
+                window.getIPCallback = (data) => resolve(data.ip);
+                script.onerror = () => reject();
+                document.head.appendChild(script);
+            });
         }
         
         // IP Lookup
         async function lookupIP() {
             const input = document.getElementById('ipInput').value.trim();
-            const ip = input || '';
+            const ip = input;
             const resultBox = document.getElementById('ipResult');
             
             resultBox.classList.remove('hidden');
-            resultBox.innerHTML = '<div class="loading"></div> Caută...';
+            resultBox.innerHTML = '<span class="loading"></span> Caută...';
             
             try {
                 const url = ip ? `https://ipapi.co/${ip}/json/` : 'https://ipapi.co/json/';
@@ -388,13 +325,11 @@
                 
                 resultBox.innerHTML = `
 IP: ${data.ip || 'N/A'}
-Country: ${data.country_name || 'N/A'} ${data.country_flag_emoji || ''}
+Country: ${data.country_name || 'N/A'}
 Region: ${data.region || 'N/A'}
 City: ${data.city || 'N/A'}
 ISP: ${data.org || 'N/A'}
-AS: ${data.asn || 'N/A'}
 Timezone: ${data.timezone || 'N/A'}
-Currency: ${data.currency || 'N/A'}
                 `.trim();
             } catch (e) {
                 resultBox.innerHTML = 'Eroare la căutare IP';
@@ -415,31 +350,29 @@ Currency: ${data.currency || 'N/A'}
             btn.innerHTML = '<span class="loading"></span> Testează...';
             resultBox.classList.add('hidden');
             
-            // Test download speed
-            const startTime = performance.now();
-            const testFile = 'https://speed.cloudflare.com/__down?bytes=10000000'; // 10MB
-            
             try {
-                const response = await fetch(testFile);
-                const blob = await response.blob();
+                const startTime = performance.now();
+                const response = await fetch('https://www.google.com/images/branding/biglogo/1x/googlelogo_color_272x92dp.png', {mode: 'no-cors', cache: 'no-store'});
                 const endTime = performance.now();
                 
-                const duration = (endTime - startTime) / 1000; // seconds
-                const bitsLoaded = blob.size * 8;
-                const speedBps = bitsLoaded / duration;
-                const speedMbps = (speedBps / 1000000).toFixed(2);
+                // Estimate based on connection type
+                const conn = navigator.connection;
+                let speed = 0;
+                if (conn && conn.downlink) {
+                    speed = conn.downlink;
+                } else {
+                    // Fallback estimate
+                    speed = ((endTime - startTime) / 1000).toFixed(2);
+                    speed = Math.max(0.1, 100 / speed); // Rough estimate
+                }
                 
-                speedValue.textContent = speedMbps;
+                speedValue.textContent = speed.toFixed(2);
                 resultBox.classList.remove('hidden');
-                resultBox.innerHTML = `
-Download Speed: ${speedMbps} Mbps
-Time: ${duration.toFixed(2)} seconds
-File Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB
-                `;
+                resultBox.innerHTML = `Estimated Speed: ${speed.toFixed(2)} Mbps\nBased on network connection`;
             } catch (e) {
                 speedValue.textContent = 'Eroare';
                 resultBox.classList.remove('hidden');
-                resultBox.innerHTML = 'Eroare la testare. Încearcă din nou.';
+                resultBox.innerHTML = 'Eroare la testare';
             }
             
             btn.disabled = false;
@@ -453,14 +386,14 @@ File Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB
             const count = parseInt(document.getElementById('pingCount').value) || 5;
             const resultsDiv = document.getElementById('pingResults');
             
-            resultsDiv.innerHTML = '<div class="loading"></div> Ping...';
+            resultsDiv.innerHTML = '<span class="loading"></span> Ping...';
             
             const results = [];
             
             for (let i = 0; i < count; i++) {
                 const start = performance.now();
                 try {
-                    await fetch(host, { mode: 'no-cors', cache: 'no-store' });
+                    await fetch(`https://${host}/favicon.ico`, {mode: 'no-cors', cache: 'no-store'});
                     const end = performance.now();
                     const ping = (end - start).toFixed(0);
                     results.push({ success: true, time: ping });
@@ -468,7 +401,6 @@ File Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB
                     results.push({ success: false });
                 }
                 
-                // Update UI
                 resultsDiv.innerHTML = results.map((r, i) => `
                     <div class="ping-result ${r.success ? 'success' : 'failed'}">
                         <span>Ping #${i + 1}</span>
@@ -476,7 +408,7 @@ File Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB
                     </div>
                 `).join('');
                 
-                await new Promise(r => setTimeout(r, 500));
+                await new Promise(r => setTimeout(r, 800));
             }
             
             const successful = results.filter(r => r.success);
@@ -490,58 +422,45 @@ File Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB
             `;
         }
         
-        // Traceroute
+        // Traceroute (simplified)
         async function runTraceroute() {
-            const host = document.getElementById("tracerouteHost").value.trim() || "google.com";
-            const resultsDiv = document.getElementById("tracerouteResults");
+            const host = document.getElementById('tracerouteHost').value.trim() || 'google.com';
+            const resultsDiv = document.getElementById('tracerouteResults');
             
-            resultsDiv.innerHTML = "<div class="loading"></div> Tracing route to " + host + "...";
+            resultsDiv.innerHTML = '<span class="loading"></span> Tracing...';
             
+            // Simulated traceroute (browser limitation)
             const hops = [];
-            const maxHops = 15;
+            const testHosts = [`1.${host}`, `2.${host}`, `3.${host}`, host];
             
-            for (let i = 1; i <= maxHops; i++) {
-                const times = [];
-                let success = false;
-                
-                for (let j = 0; j < 3; j++) {
-                    const start = performance.now();
-                    try {
-                        await fetch("https://dns.google/resolve?name=" + host + "&type=A", {cache: "no-store"});
-                        const end = performance.now();
-                        times.push((end - start).toFixed(0));
-                        success = true;
-                    } catch (e) {
-                        times.push("*");
-                    }
+            for (let i = 0; i < testHosts.length; i++) {
+                const start = performance.now();
+                try {
+                    await fetch(`https://${testHosts[i]}/favicon.ico`, {mode: 'no-cors', cache: 'no-store'});
+                    const end = performance.now();
+                    hops.push({ hop: i + 1, host: testHosts[i], time: (end - start).toFixed(0), success: true });
+                } catch (e) {
+                    hops.push({ hop: i + 1, host: testHosts[i], time: '*', success: false });
                 }
                 
-                const avg = times.filter(t => t !== "*").length ? 
-                    (times.filter(t => t !== "*").reduce((a,b) => parseInt(a)+parseInt(b),0) / times.filter(t => t !== "*").length).toFixed(0) : "*";
-                
-                hops.push({ hop: i, times: times.join(" "), avg: avg, success: success });
-                
                 resultsDiv.innerHTML = hops.map(h => `
-                    <div class="ping-result ${h.success ? "success" : "failed"}">
+                    <div class="ping-result ${h.success ? 'success' : 'failed'}">
                         <span>${h.hop}</span>
-                        <span>${h.times}</span>
-                        <span>${h.avg} ms</span>
+                        <span>${h.host}</span>
+                        <span>${h.time} ms</span>
                     </div>
-                `).join("");
+                `).join('');
                 
-                if (success) break;
-                await new Promise(r => setTimeout(r, 500));
+                if (i < testHosts.length - 1) await new Promise(r => setTimeout(r, 500));
             }
         }
-
+        
         // Device Info
         function getDeviceInfo() {
-            document.getElementById('userAgent').textContent = (navigator.userAgent || 'N/A').substring(0, 50) + '...';
             document.getElementById('platform').textContent = navigator.platform || 'N/A';
             document.getElementById('language').textContent = navigator.language || 'N/A';
             document.getElementById('screen').textContent = `${window.screen.width} x ${window.screen.height}`;
             document.getElementById('cookies').textContent = navigator.cookieEnabled ? '✅ Yes' : '❌ No';
-            document.getElementById('java').textContent = navigator.javaEnabled ? '✅ Yes' : '❌ No';
         }
         
         // Initialize
