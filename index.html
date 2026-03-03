@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UtilityAnalyzer - Web</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --dark: #1f2937;
+            --light: #f3f4f6;
+            --white: #ffffff;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #1f2937 0%, #111827 100%);
+            color: var(--white);
+            min-height: 100vh;
+            padding-bottom: 20px;
+        }
+        
+        .header {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            text-align: center;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+        }
+        
+        .header h1 span {
+            color: var(--primary);
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        .nav-tabs {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        
+        .nav-tab {
+            padding: 12px 20px;
+            background: rgba(255,255,255,0.1);
+            border: none;
+            border-radius: 8px;
+            color: var(--white);
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+        
+        .nav-tab:hover {
+            background: rgba(255,255,255,0.2);
+        }
+        
+        .nav-tab.active {
+            background: var(--primary);
+        }
+        
+        .card {
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            backdrop-filter: blur(10px);
+        }
+        
+        .card h2 {
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .card h2 .icon {
+            font-size: 1.5rem;
+        }
+        
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+        }
+        
+        .info-item {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+        }
+        
+        .info-label {
+            font-size: 0.75rem;
+            color: #9ca3af;
+            margin-bottom: 5px;
+        }
+        
+        .info-value {
+            font-size: 1rem;
+            font-weight: 600;
+        }
+        
+        .info-value.success { color: var(--success); }
+        .info-value.warning { color: var(--warning); }
+        .info-value.danger { color: var(--danger); }
+        .info-value.primary { color: var(--primary); }
+        
+        .btn {
+            padding: 12px 24px;
+            background: var(--primary);
+            border: none;
+            border-radius: 8px;
+            color: var(--white);
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        
+        .btn:hover {
+            background: var(--primary-dark);
+        }
+        
+        .btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+        
+        .speed-test {
+            text-align: center;
+            padding: 40px;
+        }
+        
+        .speed-value {
+            font-size: 4rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+        
+        .speed-unit {
+            font-size: 1.5rem;
+            color: #9ca3af;
+        }
+        
+        .result-box {
+            background: rgba(255,255,255,0.05);
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 15px;
+            font-family: monospace;
+            white-space: pre-wrap;
+            word-break: break-all;
+        }
+        
+        .ping-result {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 6px;
+            margin-top: 8px;
+        }
+        
+        .ping-result.success { border-left: 3px solid var(--success); }
+        .ping-result.failed { border-left: 3px solid var(--danger); }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        .hidden { display: none; }
+        
+        .tab-content { display: none; }
+        .tab-content.active { display: block; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>⚡ <span>Utility</span>Analyzer</h1>
+        <p>Network Analysis Tool</p>
+    </div>
+    
+    <div class="container">
+        <div class="nav-tabs">
+            <button class="nav-tab active" onclick="showTab('network')">📶 Rețea</button>
+            <button class="nav-tab" onclick="showTab('ip')">🌐 IP Info</button>
+            <button class="nav-tab" onclick="showTab('speed')">⏱️ Speed</button>
+            <button class="nav-tab" onclick="showTab('ping')">🌊 Ping</button>
+            <button class="nav-tab" onclick="showTab('device')">📱 Device</button>
+        </div>
+        
+        <!-- Rețea Tab -->
+        <div id="network" class="tab-content active">
+            <div class="card">
+                <h2><span class="icon">📶</span> Informații Rețea</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">Tip Conexiune</div>
+                        <div class="info-value" id="connectionType">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">IP Address</div>
+                        <div class="info-value" id="ipAddress">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Online</div>
+                        <div class="info-value" id="onlineStatus">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Downlink</div>
+                        <div class="info-value" id="downlink">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">RTT</div>
+                        <div class="info-value" id="rtt">-</div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Save Data</div>
+                        <div class="info-value" id="saveData">-</div>
+                    </div>
+                </div>
+                <button class="btn" onclick="getNetworkInfo()" style="margin-top: 15px;">🔄 Refresh</button>
+            </div>
+        </div>
+        
+        <!-- IP Info Tab -->
+        <div id="ip" class="tab-content">
+            <div class="card">
+                <h2><span class="icon">🌐</span> IP Lookup</h2>
+                <input type="text" id="ipInput" placeholder="IP Address (lasă gol pentru IP-ul tău)" 
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                <button class="btn" onclick="lookupIP()">🔍 Caută</button>
+                <div id="ipResult" class="result-box hidden"></div>
+            </div>
+        </div>
+        
+        <!-- Speed Test Tab -->
+        <div id="speed" class="tab-content">
+            <div class="card">
+                <h2><span class="icon">⏱️</span> Speed Test</h2>
+                <div class="speed-test">
+                    <div class="speed-value" id="speedValue">0</div>
+                    <div class="speed-unit">Mbps</div>
+                    <button class="btn" id="speedBtn" onclick="runSpeedTest()" style="margin-top: 20px;">🚀 Start Test</button>
+                </div>
+                <div id="speedResult" class="result-box hidden"></div>
+            </div>
+        </div>
+        
+        <!-- Ping Tab -->
+        <div id="ping" class="tab-content">
+            <div class="card">
+                <h2><span class="icon">🌊</span> Ping Test</h2>
+                <input type="text" id="pingHost" placeholder="Host (ex: google.com)" 
+                       value="google.com"
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                <input type="number" id="pingCount" placeholder="Număr ping-uri" value="5" min="1" max="20"
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                <button class="btn" onclick="runPing()">▶️ Run Ping</button>
+                <div id="pingResults"></div>
+            </div>
+        </div>
+        
+        <!-- Device Tab -->
+        <div id="device" class="tab-content">
+            <div class="card">
+                <h2><span class="icon">📱</span> Informații Dispozitiv</h2>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <div class="info-label">User Agent</div>
+                        <div class="info-value" id="userAgent" style="font-size: 0.8rem;"></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Platform</div>
+                        <div class="info-value" id="platform"></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Limbă</div>
+                        <div class="info-value" id="language"></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Ecran</div>
+                        <div class="info-value" id="screen"></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Cookie Enabled</div>
+                        <div class="info-value" id="cookies"></div>
+                    </div>
+                    <div class="info-item">
+                        <div class="info-label">Java Enabled</div>
+                        <div class="info-value" id="java"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <script>
+        // Tab switching
+        function showTab(tabId) {
+            document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.nav-tab').forEach(b => b.classList.remove('active'));
+            document.getElementById(tabId).classList.add('active');
+            event.target.classList.add('active');
+        }
+        
+        // Network Info
+        function getNetworkInfo() {
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            if (conn) {
+                document.getElementById('connectionType').textContent = conn.effectiveType || 'unknown';
+                document.getElementById('downlink').textContent = conn.downlink ? conn.downlink + ' Mbps' : '-';
+                document.getElementById('rtt').textContent = conn.rtt ? conn.rtt + ' ms' : '-';
+                document.getElementById('saveData').textContent = conn.saveData ? 'Yes' : 'No';
+            } else {
+                document.getElementById('connectionType').textContent = 'WiFi/4G';
+            }
+            
+            document.getElementById('onlineStatus').textContent = navigator.onLine ? '✅ Online' : '❌ Offline';
+            document.getElementById('onlineStatus').className = 'info-value ' + (navigator.onLine ? 'success' : 'danger');
+            
+            // IP Address (requires external API)
+            fetch('https://api.ipify.org?format=json')
+                .then(r => r.json())
+                .then(d => document.getElementById('ipAddress').textContent = d.ip)
+                .catch(() => document.getElementById('ipAddress').textContent = 'N/A');
+        }
+        
+        // IP Lookup
+        async function lookupIP() {
+            const input = document.getElementById('ipInput').value.trim();
+            const ip = input || '';
+            const resultBox = document.getElementById('ipResult');
+            
+            resultBox.classList.remove('hidden');
+            resultBox.innerHTML = '<div class="loading"></div> Caută...';
+            
+            try {
+                const url = ip ? `https://ipapi.co/${ip}/json/` : 'https://ipapi.co/json/';
+                const response = await fetch(url);
+                const data = await response.json();
+                
+                resultBox.innerHTML = `
+IP: ${data.ip || 'N/A'}
+Country: ${data.country_name || 'N/A'} ${data.country_flag_emoji || ''}
+Region: ${data.region || 'N/A'}
+City: ${data.city || 'N/A'}
+ISP: ${data.org || 'N/A'}
+AS: ${data.asn || 'N/A'}
+Timezone: ${data.timezone || 'N/A'}
+Currency: ${data.currency || 'N/A'}
+                `.trim();
+            } catch (e) {
+                resultBox.innerHTML = 'Eroare la căutare IP';
+            }
+        }
+        
+        // Speed Test
+        let speedTestRunning = false;
+        async function runSpeedTest() {
+            if (speedTestRunning) return;
+            speedTestRunning = true;
+            
+            const btn = document.getElementById('speedBtn');
+            const speedValue = document.getElementById('speedValue');
+            const resultBox = document.getElementById('speedResult');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<span class="loading"></span> Testează...';
+            resultBox.classList.add('hidden');
+            
+            // Test download speed
+            const startTime = performance.now();
+            const testFile = 'https://speed.cloudflare.com/__down?bytes=10000000'; // 10MB
+            
+            try {
+                const response = await fetch(testFile);
+                const blob = await response.blob();
+                const endTime = performance.now();
+                
+                const duration = (endTime - startTime) / 1000; // seconds
+                const bitsLoaded = blob.size * 8;
+                const speedBps = bitsLoaded / duration;
+                const speedMbps = (speedBps / 1000000).toFixed(2);
+                
+                speedValue.textContent = speedMbps;
+                resultBox.classList.remove('hidden');
+                resultBox.innerHTML = `
+Download Speed: ${speedMbps} Mbps
+Time: ${duration.toFixed(2)} seconds
+File Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB
+                `;
+            } catch (e) {
+                speedValue.textContent = 'Eroare';
+                resultBox.classList.remove('hidden');
+                resultBox.innerHTML = 'Eroare la testare. Încearcă din nou.';
+            }
+            
+            btn.disabled = false;
+            btn.innerHTML = '🚀 Start Test';
+            speedTestRunning = false;
+        }
+        
+        // Ping Test
+        async function runPing() {
+            const host = document.getElementById('pingHost').value.trim() || 'google.com';
+            const count = parseInt(document.getElementById('pingCount').value) || 5;
+            const resultsDiv = document.getElementById('pingResults');
+            
+            resultsDiv.innerHTML = '<div class="loading"></div> Ping...';
+            
+            const results = [];
+            
+            for (let i = 0; i < count; i++) {
+                const start = performance.now();
+                try {
+                    await fetch(host, { mode: 'no-cors', cache: 'no-store' });
+                    const end = performance.now();
+                    const ping = (end - start).toFixed(0);
+                    results.push({ success: true, time: ping });
+                } catch (e) {
+                    results.push({ success: false });
+                }
+                
+                // Update UI
+                resultsDiv.innerHTML = results.map((r, i) => `
+                    <div class="ping-result ${r.success ? 'success' : 'failed'}">
+                        <span>Ping #${i + 1}</span>
+                        <span>${r.success ? r.time + ' ms' : 'Failed'}</span>
+                    </div>
+                `).join('');
+                
+                await new Promise(r => setTimeout(r, 500));
+            }
+            
+            const successful = results.filter(r => r.success);
+            const avg = successful.length ? (successful.reduce((a, b) => a + parseInt(b.time), 0) / successful.length).toFixed(0) : 'N/A';
+            
+            resultsDiv.innerHTML += `
+                <div class="ping-result success" style="margin-top: 15px; border-left-color: var(--primary);">
+                    <span>Average</span>
+                    <span>${avg} ms</span>
+                </div>
+            `;
+        }
+        
+        // Device Info
+        function getDeviceInfo() {
+            document.getElementById('userAgent').textContent = (navigator.userAgent || 'N/A').substring(0, 50) + '...';
+            document.getElementById('platform').textContent = navigator.platform || 'N/A';
+            document.getElementById('language').textContent = navigator.language || 'N/A';
+            document.getElementById('screen').textContent = `${window.screen.width} x ${window.screen.height}`;
+            document.getElementById('cookies').textContent = navigator.cookieEnabled ? '✅ Yes' : '❌ No';
+            document.getElementById('java').textContent = navigator.javaEnabled ? '✅ Yes' : '❌ No';
+        }
+        
+        // Initialize
+        getNetworkInfo();
+        getDeviceInfo();
+    </script>
+</body>
+</html>
