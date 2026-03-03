@@ -219,6 +219,7 @@
             <button class="nav-tab" onclick="showTab('ip')">🌐 IP Info</button>
             <button class="nav-tab" onclick="showTab('speed')">⏱️ Speed</button>
             <button class="nav-tab" onclick="showTab('ping')">🌊 Ping</button>
+            <button class="nav-tab" onclick="showTab('traceroute')">🛤️ Traceroute</button>
             <button class="nav-tab" onclick="showTab('device')">📱 Device</button>
         </div>
         
@@ -294,6 +295,18 @@
             </div>
         </div>
         
+        <!-- Traceroute Tab -->
+        <div id="traceroute" class="tab-content">
+            <div class="card">
+                <h2><span class="icon">🛤️</span> Traceroute</h2>
+                <input type="text" id="tracerouteHost" placeholder="Host (ex: google.com)" 
+                       value="google.com"
+                       style="width: 100%; padding: 12px; border-radius: 8px; border: none; margin-bottom: 10px;">
+                <button class="btn" onclick="runTraceroute()">▶️ Start Traceroute</button>
+                <div id="tracerouteResults"></div>
+            </div>
+        </div>
+
         <!-- Device Tab -->
         <div id="device" class="tab-content">
             <div class="card">
@@ -477,6 +490,50 @@ File Size: ${(blob.size / 1024 / 1024).toFixed(2)} MB
             `;
         }
         
+        // Traceroute
+        async function runTraceroute() {
+            const host = document.getElementById("tracerouteHost").value.trim() || "google.com";
+            const resultsDiv = document.getElementById("tracerouteResults");
+            
+            resultsDiv.innerHTML = "<div class="loading"></div> Tracing route to " + host + "...";
+            
+            const hops = [];
+            const maxHops = 15;
+            
+            for (let i = 1; i <= maxHops; i++) {
+                const times = [];
+                let success = false;
+                
+                for (let j = 0; j < 3; j++) {
+                    const start = performance.now();
+                    try {
+                        await fetch("https://dns.google/resolve?name=" + host + "&type=A", {cache: "no-store"});
+                        const end = performance.now();
+                        times.push((end - start).toFixed(0));
+                        success = true;
+                    } catch (e) {
+                        times.push("*");
+                    }
+                }
+                
+                const avg = times.filter(t => t !== "*").length ? 
+                    (times.filter(t => t !== "*").reduce((a,b) => parseInt(a)+parseInt(b),0) / times.filter(t => t !== "*").length).toFixed(0) : "*";
+                
+                hops.push({ hop: i, times: times.join(" "), avg: avg, success: success });
+                
+                resultsDiv.innerHTML = hops.map(h => `
+                    <div class="ping-result ${h.success ? "success" : "failed"}">
+                        <span>${h.hop}</span>
+                        <span>${h.times}</span>
+                        <span>${h.avg} ms</span>
+                    </div>
+                `).join("");
+                
+                if (success) break;
+                await new Promise(r => setTimeout(r, 500));
+            }
+        }
+
         // Device Info
         function getDeviceInfo() {
             document.getElementById('userAgent').textContent = (navigator.userAgent || 'N/A').substring(0, 50) + '...';
